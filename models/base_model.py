@@ -1,23 +1,34 @@
 #!/usr/bin/python3
 import uuid
 from datetime import datetime
+from models import storage
+
 'Module for BaseModel'
 
 
 class BaseModel:
     'BaseModel class'
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         'initialize data'
-        self.id = uuid.uuid1()
-        self.created_at = datetime.now()
+        if len(kwargs) is not 0:
+            for k, v in kwargs.iteritems():
+                print(k, v)
+            self.id = kwargs.get("id")
+            self.created_at = datetime(kwargs.get("created_at"))
+            self.updated_at = datetime(kwargs.get("updated_at"))
+        else:
+            self.id = uuid.uuid1()  
+            self.created_at = datetime.now()
+            storage.new(self)
 
     def save(self):
         'save method'
         self.updated_at = datetime.now()
+        storage.save()
 
     def __str__(self):
         'str method'
-        return ("[{}] ({}) {}".format(type(self), self.id, self.__dict__))
+        return ("[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__))
 
     def to_json(self):
         'to json method'
@@ -26,5 +37,5 @@ class BaseModel:
             if isinstance(v, (datetime, uuid.UUID)):
                 v = str(v)
             new_dict[k] = (v)
-            new_dict['__class__'] = self.__class__.__name__
+            new_dict['__class__'] = str(self.__class__.__name__)
         return new_dict
