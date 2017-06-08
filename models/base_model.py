@@ -33,9 +33,16 @@ class BaseModel:
     def to_json(self):
         'to json method'
         new_dict = {}
-        for k, v in self.__dict__.items():
-            if isinstance(v, (datetime, uuid.UUID)):
-                v = str(v)
-            new_dict[k] = (v)
-            new_dict['__class__'] = str(self.__class__.__name__)
+        if type(self) is not dict:
+            for k, v in self.__dict__.items():
+                if isinstance(v, (datetime, uuid.UUID, list, set)):
+                    v = str(v)
+                new_dict[k] = (v)
+        else:
+            for k1, v1 in self.items():
+                if isinstance(v1, (datetime, uuid.UUID, dict, list, set)):
+                    v1 = str(v1)
+                new_dict[k1] = (v1)
+                
+        new_dict['__class__'] = str(self.__class__.__name__)
         return new_dict
