@@ -7,15 +7,18 @@ import json
 
 class FileStorage:
     'FileStorage class'
-    __file_path = "file.json"
+    print("++FileStorage++")
+    __file_path = "./file.json"
     __objects = {}
         
     def all(self):
         'Returns __objects'
+        print("++FileStorage.all++")
         return self.reload()
 
     def new(self, obj):
         'adds an object to the instance'
+        print("++FileStorage.new++")
         from models.base_model import BaseModel
         import uuid
 
@@ -26,6 +29,7 @@ class FileStorage:
 
     def save(self):
         'serializes __objects to JSON file'
+        print("++FileStorage.save++")
         from models.base_model import BaseModel
         new_dict = {}
 
@@ -47,19 +51,20 @@ class FileStorage:
 
     def reload(self):
         'deserializes the JSON file to __objects'
+        print("++FileStorage.reload++")
         from models.base_model import BaseModel
         print("above try")
-        try:
-            print(self.__file_path)
-            print("in try")
-            with open('file.json', "r", "utf-8") as f:
-                print("hey")
-                reloaded = json.load(f)
-                print("reloaded: {} ".format(reloaded))
-                for k in reloaded.key():
-                    self.__objects[k] = BaseModel(**reloaded[k])
-                print(self.__objects)
-                return self.__objects
-        except:
-            print("FAIL")
-            return {}
+        # try:
+        print("__file_path: {}".format(self.__file_path))
+        print("in try")
+        with open(FileStorage.__file_path, mode="r", encoding="utf-8") as f:
+            print("file has been opened")
+            reloaded = json.load(f)
+            print("successful reload. reloaded: {} ".format(reloaded))
+            for k in reloaded.keys():
+                self.__objects[k] = BaseModel(**reloaded[k])
+            print(self.__objects)
+            return self.__objects
+        # except Exception as e:
+        #     print(e)
+        #     return {}
