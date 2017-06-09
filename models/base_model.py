@@ -5,16 +5,15 @@ from models import storage
 
 'Module for BaseModel'
 
-
+format = "%Y-%m-%dT%H:%M:%S.%f"
 class BaseModel:
     'BaseModel class'
     def __init__(self, *args, **kwargs):
         'initialize data'
         print("++BaseModel.__init__++")
         if len(kwargs) is not 0:
-            self.id = kwargs.get("id")
-            self.created_at = datetime(kwargs.get("created_at"))
-            self.updated_at = datetime(kwargs.get("updated_at"))
+            self.__dict__ = kwargs
+            self.created_at = datetime.strptime(kwargs.get("created_at"), format)
         else:
             self.id = str(uuid.uuid1())
             self.created_at = datetime.now()
@@ -29,22 +28,17 @@ class BaseModel:
     def __str__(self):
         'str method'
         print("++BaseModel.__str__++")
-        return ("[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__))
+        return ("[{}] ({}) {}".format(self.__class__.__name__,
+                                      self.id, self.__dict__))
 
     def to_json(self):
         'to json method'
         print("++BaseModel.to_json++")
-        new_dict = {}
-        if type(self) is not dict:
-            for k, v in self.__dict__.items():
-                if isinstance(v, (datetime, uuid.UUID, list, set)):
-                    v = str(v)
-                new_dict[k] = (v)
-        else:
-            for k1, v1 in self.items():
-                if isinstance(v1, (datetime, uuid.UUID, dict, list, set)):
-                    v1 = str(v1)
-                new_dict[k1] = (v1)
-                
+        new_dict = self.__dict__.copy()
+        for key, value in new_dict.items():
+            if isinstance(value, (datetime, uuid.UUID, tuple, set)):
+                if type(value) is datetime:
+                    value = value.isoformat()
+                new_dict.update({key: str(value)})
         new_dict['__class__'] = str(self.__class__.__name__)
         return new_dict

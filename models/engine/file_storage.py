@@ -33,19 +33,9 @@ class FileStorage:
         from models.base_model import BaseModel
         new_dict = {}
 
-        for keys in self.__objects.keys():
-            value = self.__objects[keys]
-            if isinstance(value, (dict, tuple, set)):
-                new_dict[keys] = BaseModel.to_json(value)
-                if type(value) is dict:
-                    for keys1 in value.keys():
-                        value1 = value[keys1]
-                        if isinstance(value1, (dict, tuple, set)):
-                            new_dict[keys1] = BaseModel.to_json(value1)
-                        else:
-                            new_dict[keys1] = BaseModel.to_json(value1)
-            else:
-                new_dict[keys] = BaseModel.to_json(value)
+        for keys in FileStorage.__objects.keys():
+            new_dict[keys] = (FileStorage.__objects.get[keys]).to_json()
+
         with open(self.__file_path, mode="w", encoding="utf-8") as f:
             json.dump(new_dict, f)
 
@@ -57,14 +47,14 @@ class FileStorage:
         # try:
         print("__file_path: {}".format(self.__file_path))
         print("in try")
-        with open(FileStorage.__file_path, mode="r", encoding="utf-8") as f:
-            print("file has been opened")
-            reloaded = json.load(f)
-            print("successful reload. reloaded: {} ".format(reloaded))
-            for k in reloaded.keys():
-                self.__objects[k] = BaseModel(**reloaded[k])
-            print(self.__objects)
-            return self.__objects
-        # except Exception as e:
-        #     print(e)
-        #     return {}
+        try:
+            with open(FileStorage.__file_path, mode="r", encoding="utf-8") as f:
+                print("file has been opened")
+                reloaded = json.load(f)
+                print("successful reload. reloaded: {} ".format(reloaded))
+                for k in reloaded.keys():
+                    self.__objects[k] = BaseModel(**reloaded[k])
+                print(self.__objects)
+                return self.__objects
+        except:
+            return {}
