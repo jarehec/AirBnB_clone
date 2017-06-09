@@ -11,13 +11,11 @@ class BaseModel:
     def __init__(self, *args, **kwargs):
         'initialize data'
         if len(kwargs) is not 0:
-            for k, v in kwargs.iteritems():
-                print(k, v)
             self.id = kwargs.get("id")
             self.created_at = datetime(kwargs.get("created_at"))
             self.updated_at = datetime(kwargs.get("updated_at"))
         else:
-            self.id = uuid.uuid1()  
+            self.id = str(uuid.uuid1())
             self.created_at = datetime.now()
             storage.new(self)
 
