@@ -34,7 +34,7 @@ class FileStorage:
         new_dict = {}
 
         for keys in FileStorage.__objects.keys():
-            new_dict[keys] = (FileStorage.__objects.get[keys]).to_json()
+            new_dict[keys] = (FileStorage.__objects[keys]).to_json()
 
         with open(self.__file_path, mode="w", encoding="utf-8") as f:
             json.dump(new_dict, f)
