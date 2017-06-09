@@ -7,37 +7,29 @@ import json
 
 class FileStorage:
     'FileStorage class'
-    __file_path = "./file.json"
+    __file_path = "file.json"
     __objects = {}
-
+        
     def all(self):
         'Returns __objects'
-        return FileStorage.__objects
+        return self.reload()
 
     def new(self, obj):
         'adds an object to the instance'
         from models.base_model import BaseModel
         import uuid
-        
+
         class_name = str(obj.__class__.__name__)
         obj_id = str(obj.id)
-        obj_str = ""
         obj_str = class_name + "." + obj_id
         FileStorage.__objects[obj_str] = obj
-        
+
     def save(self):
         'serializes __objects to JSON file'
         from models.base_model import BaseModel
-        # for i in FileStorage.__objects.__dict__:
-        #     print("type: {}/what is it: {}".format(type(i), i))
-        # print()
-        #print_this = dir(FileStorage.__objects.__class__)
-        #print("print this: {}".format(print_this))
-        #print()
-        #call to_json on all __objects dictionaries before json.dump
         new_dict = {}
-        
-        for keys in  self.__objects.keys():
+
+        for keys in self.__objects.keys():
             value = self.__objects[keys]
             if isinstance(value, (dict, tuple, set)):
                 new_dict[keys] = BaseModel.to_json(value)
@@ -52,13 +44,22 @@ class FileStorage:
                 new_dict[keys] = BaseModel.to_json(value)
         with open(self.__file_path, mode="w", encoding="utf-8") as f:
             json.dump(new_dict, f)
-            # Go through obj__dict__ to find dicts to load 
 
     def reload(self):
         'deserializes the JSON file to __objects'
-          # Go through obj__dict__ to find dicts to load 
+        from models.base_model import BaseModel
+        print("above try")
         try:
-            with open(FileStorage.__file_path, mode="r", encoding="utf-8") as f:
-                json.load(f)
+            print(self.__file_path)
+            print("in try")
+            with open('file.json', "r", "utf-8") as f:
+                print("hey")
+                reloaded = json.load(f)
+                print("reloaded: {} ".format(reloaded))
+                for k in reloaded.key():
+                    self.__objects[k] = BaseModel(**reloaded[k])
+                print(self.__objects)
+                return self.__objects
         except:
-            pass
+            print("FAIL")
+            return {}
