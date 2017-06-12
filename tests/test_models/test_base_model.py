@@ -25,6 +25,7 @@ class TestBaseModel(unittest.TestCase):
                 os.remove("file.json")
             except:
                 pass
+
     
     def test__init__id(self):
         'tests __init__: id'
@@ -76,6 +77,10 @@ class TestBaseModel(unittest.TestCase):
                                                 self.new_inst.id,
                                                 self.new_inst.__dict__))
         self.assertEqual(print(correct_format), print(self.new_inst))
+
+    def test_repr(self):
+        str_return = self.new_inst.__str__
+        self.assertIsNotNone(str_return)
 
     def test_to_json(self):
         'test to_json'
