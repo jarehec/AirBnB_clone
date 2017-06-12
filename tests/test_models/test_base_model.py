@@ -37,8 +37,7 @@ class TestBaseModel(unittest.TestCase):
         this_dict = self.new_inst.__dict__
         self.assertIsNotNone(this_dict.get("created_at"))
 
-    def 
-    test_attributes(self):
+    def test_attributes(self):
         'tests for attributes'
         self.assertFalse(hasattr(self.new_inst, "updated_at"))
         self.assertFalse(hasattr(self.new_inst, "my_number"))
