@@ -43,15 +43,10 @@ class FileStorage:
         'deserializes the JSON file to __objects'
         print("++FileStorage.reload++")
         from models.base_model import BaseModel
-        print("above try")
-        # try:
-        print("__file_path: {}".format(self.__file_path))
-        print("in try")
+        print("\t__file_path: {}".format(self.__file_path))
         try:
             with open(FileStorage.__file_path, mode="r", encoding="utf-8") as f:
-                print("file has been opened")
                 reloaded = json.load(f)
-                print("successful reload. reloaded: {} ".format(reloaded))
                 for k in reloaded.keys():
                     self.__objects[k] = BaseModel(**reloaded[k])
                 print(self.__objects)

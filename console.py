@@ -1,12 +1,15 @@
 #!/usr/bin/python3
 'Console program'
 import cmd
+from models.base_model import BaseModel
+from models import storage
 
+classes = {'BaseModel': BaseModel}
 
 class HBNBCommand(cmd.Cmd):
     'hbnb command interpreter'
     prompt = '(hbnb) '
-    classes = {'BaseModel': BaseModel, 'FileStorage': FileStorage}
+
 
     def do_quit(self, s):
         'Exits the shell'
@@ -16,27 +19,34 @@ class HBNBCommand(cmd.Cmd):
         'Exits the shell'
         exit()
 
-    def do_create(self, name):
+    def do_create(self, args):
         'create instance of basemodel, saves it'
-        if name is None:
-            print("** class doesn't exist **")
-        elif name is not "BaseModel":
+        args = args.split()
+        if args is None:
             print("** class name missing **")
-        else:
-            new_instance = name
-            print(new_instance.id)
-            FileStorage.save(new_instance)
-
-    def do_show(self, name, name_id):
-        'print string repr of an instance based on class name'
-        if name is None:
-            print("** no instance found **")
-        elif name_id is None:
-            print("** instance id missing **")
-        elif name.__class__ is None:
+        elif args[0] not in classes:
             print("** class doesn't exist **")
         else:
-            print(name)
+            new_instance = classes.get(args[0])()
+            print(new_instance.id)
+            storage.save(new_instance)
+
+    def do_show(self, args):
+        'print string repr of an instance based on class name'
+        args = args.split()
+        'expecting: args = [name, name_id]'
+        if len(args) != 2:
+        # if args[0] is None:
+            print("** class name missing **")
+        # elif args[1] is None:
+            print("** instance id missing **")
+        elif args[0] not in classes:
+            print("** class doesn't exist **")
+        else:
+            try:
+                print(args[1])
+            except:
+                print("++ no instance found ++")
 
     def emptyline(self):
         'emptyline method - does nothing'
