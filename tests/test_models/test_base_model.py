@@ -77,5 +77,10 @@ class TestBaseModel(unittest.TestCase):
                                                 self.new_inst.__dict__))
         self.assertEqual(print(correct_format), print(self.new_inst))
 
+    def test_to_json(self):
+        'test to_json'
+        json_return = BaseModel.to_json(self.new_inst)
+        self.assertEqual(type(json_return), dict)
+
 if __name__ == '__main__':
     unittest.main()
