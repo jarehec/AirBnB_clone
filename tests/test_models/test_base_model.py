@@ -3,117 +3,79 @@
 """
 import unittest
 import uuid
+import os
+import models
+from models import storage
 from models.base_model import BaseModel
+from models.engine.file_storage import FileStorage
+
 
 class TestBaseModel(unittest.TestCase):
     'class for testing base_model'
-    def test_name(self):
-        my_model = BaseModel()
-        my_model.name = "Holberton"
-        self.assertEqual(my_model.name, "Holberton")
 
-    def test_no_name(self):
-        my_model = BaseModel()
-        with self.assertRaises(AttributeError):
-            my_model.name
 
-    def test_no_id(self):
-        my_model = BaseModel()
-        my_model.id
+    def setUp(self):
+        'called multiple times, once before each test'
+        self.new_inst = BaseModel()
 
-    def test_no_number(self):
-        my_model = BaseModel()
-        with self.assertRaises(AttributeError):
-            my_model.my_number
+    def tearDown(self):
+        'called multiple times, once after each test'
+        if os.path.exists("file.json"):
+            try:
+                os.remove("file.json")
+            except:
+                pass
+    
+    def test__init__id(self):
+        'tests __init__: id'
+        this_dict = self.new_inst.__dict__
+        self.assertIsNotNone(this_dict.get("id"))
 
-    def test_check_id_type(self):
-        my_model = BaseModel()
-        self.assertTrue(isinstance(my_model.id, uuid.UUID))
+    def test__init__created_at(self):
+        'tests __init__: created_at'
+        this_dict = self.new_inst.__dict__
+        self.assertIsNotNone(this_dict.get("created_at"))
 
-    def test_save(self):
-        my_model = BaseModel()
-        my_model.name = "Holberton"
-        my_model.my_number = 89
-        my_model.save()
+    def test_attributes(self):
+        'tests for attributes'
+        self.assertFalse(hasattr(self.new_inst, "updated_at"))
+        self.assertFalse(hasattr(self.new_inst, "my_number"))
+        self.assertFalse(hasattr(self.new_inst, "random_attr"))
+        self.new_inst.name = "TeamTeam!"
+        self.new_inst.age = 100
+        self.assertTrue(hasattr(self.new_inst, "name"))
+        self.assertEqual(self.new_inst.name, "TeamTeam!")
+        self.assertTrue(hasattr(self.new_inst, "age"))
+        delattr(self.new_inst, "name")
+        self.assertFalse(hasattr(self.new_inst, "name"))
+        self.assertEqual(self.new_inst.__class__.__name__, "BaseModel")
 
-    def test_save_str(self):
-        my_model = BaseModel()
-        my_model.name = "Holberton"
-        my_model.my_number = 89
-        with self.assertRaises(TypeError):
-            my_model.save("hi")
+    def test_save_init(self):
+        'test to make sure no "updated_at" is created upon creation'
+        this_dict = self.new_inst.__dict__
+        # this_dict = storage.all()
+        print("this_dict: {}".format(this_dict))
+        self.assertIsNone(this_dict.get("updated_at"))
 
-    def test_save_int(self):
-        my_model = BaseModel()
-        my_model.name = "Holberton"
-        my_model.my_number = 89
-        with self.assertRaises(TypeError):
-            my_model.save(42)
-
-    def test_save_tuple(self):
-        my_model = BaseModel()
-        my_model.name = "Holberton"
-        my_model.my_number = 89
-        with self.assertRaises(TypeError):
-            my_model.save((42, 98))
-
-    def test_save_list(self):
-        my_model = BaseModel()
-        my_model.name = "Holberton"
-        my_model.my_number = 89
-        with self.assertRaises(TypeError):
-            my_model.save([42, 98])
-
-    def test_save_set(self):
-        my_model = BaseModel()
-        my_model.name = "Holberton"
-        my_model.my_number = 89
-        with self.assertRaises(TypeError):
-            my_model.save({'42', '98'})
-
-    def test_save_dict(self):
-        my_model = BaseModel()
-        my_model.name = "Holberton"
-        my_model.my_number = 89
-        with self.assertRaises(TypeError):
-            my_model.save({'42': '98'})
-
-    def test_to_json(self):
-        my_model = BaseModel()
-        my_model_json = my_model.to_json()
-
-    def test_to_json_str(self):
-        my_model = BaseModel()
-        with self.assertRaises(TypeError):
-            my_model_json = my_model.to_json('3')
-
-    def test_to_json_int(self):
-        my_model = BaseModel()
-        with self.assertRaises(TypeError):
-            my_model_json = my_model.to_json(3)
-
-    def test_to_json_set(self):
-        my_model = BaseModel()
-        with self.assertRaises(TypeError):
-            my_model_json = my_model.to_json({'t', '3'})
-
-    def test_to_json_dict(self):
-        my_model = BaseModel()
-        with self.assertRaises(TypeError):
-            my_model_json = my_model.to_json({'ti': '3'})
-
-    def test_to_json_list(self):
-        my_model = BaseModel()
-        with self.assertRaises(TypeError):
-            my_model_json = my_model.to_json(['ti', '3'])
-
-    def test_to_json_tuple(self):
-        my_model = BaseModel()
-        with self.assertRaises(TypeError):
-            my_model_json = my_model.to_json(('ti', '3'))
-
-    def test_datetime(self):
-        my_model = BaseModel()
+    def test_save_update(self):
+        'tests save: updating a file'
+        this_dict = self.new_inst.__dict__
+        # this_dict = storage.all()
+        print("this_dict (before save): {}".format(this_dict))
+        before = this_dict.get("updated_at")
+        self.new_inst.save()
+        this_dict = self.new_inst.__dict__
+        # this_dict = storage.all()
+        print("this_dict (after save): {}".format(this_dict))
+        after = this_dict.get("updated_at")
+        self.assertNotEqual(before, after)
         
+    def test___str__(self):
+        'test __str__: check format'
+        correct_format = ("[{}] ({}) {}".format(self.new_inst.__class__.__name__,
+                                                self.new_inst.id,
+                                                self.new_inst.__dict__))
+        self.assertEqual(print(correct_format), print(self.new_inst))
+
 if __name__ == '__main__':
     unittest.main()
