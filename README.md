@@ -29,23 +29,44 @@ Information about this style can be found at https://www.python.org/dev/peps/pep
 - engine.__init__: `models/engine/__init__.py`
 
 ### Files: Test Files
-- 
+- `test_console.py`: `tests/`
+- `test_amenity.py`: `tests/test_models/`
+- `test_base_model.py`: `tests/test_models/`
+- `test_city.py`: `tests/test_models/`
+- `test____init__.py`: `tests/test_models/`
+- `test_place.py`: `tests/test_models/`
+- `test_review.py`: `tests/test_models/`
+- `test_state.py`: `tests/test_models/`
+- `test_user.py`: `tests/test_models/`
+- `test_file_storage.py`: `tests/test_models/test_engine`
+
 
 ## Console Information
 ### Console Functionality
 
 ### Classes
-** **
+**BaseModel**
+**FileStorage**
+**Amenity**
+**City**
+**Place**
+**Review**
+**State**
+**User**
 
 ### Executing the Console/CLI
 1. Clone the repository to your directory:
-
+`git clone https://github.com/jarehec/AirBnB_clone.git`
 2. Run the console
-
+`./console.py`
 To get a list of available commands, type `help`.
 
 ### Available Commands
-* 
+* `quit`: exits the CLI
+* `EOF`: exits the CLI
+* `create`: create a new object with specified class
+* `show`: print the representation of an instance
+* `emptyline`: does nothing
 
 ### Usage Examples
 
