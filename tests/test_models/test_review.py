@@ -60,20 +60,14 @@ class TestReview(unittest.TestCase):
     def test_save_init(self):
         'test to make sure no "updated_at" is created upon creation'
         this_dict = self.new_review.__dict__
-        # this_dict = storage.all()
-        print("this_dict: {}".format(this_dict))
         self.assertIsNone(this_dict.get("updated_at"))
 
     def test_save_update(self):
         'tests save: updating a file'
         this_dict = self.new_review.__dict__
-        # this_dict = storage.all()
-        print("this_dict (before save): {}".format(this_dict))
         before = this_dict.get("updated_at")
         self.new_review.save()
         this_dict = self.new_review.__dict__
-        # this_dict = storage.all()
-        print("this_dict (after save): {}".format(this_dict))
         after = this_dict.get("updated_at")
         self.assertNotEqual(before, after)
 
