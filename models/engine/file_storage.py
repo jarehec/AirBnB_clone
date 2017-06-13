@@ -44,7 +44,7 @@ class FileStorage:
         from models.state import State
         from models.amenity import Amenity
         from models.review import Review
-    
+
         classes = {'BaseModel': BaseModel, 'User': User, 'Place': Place,
                    'State': State, 'City': City, 'Amenity': Amenity,
                    'Review': Review}
