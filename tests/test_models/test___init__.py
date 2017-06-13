@@ -7,6 +7,7 @@ from models import storage
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 
+
 class Test__init__(unittest.TestCase):
     'Class for testing __init__ in models'
 
