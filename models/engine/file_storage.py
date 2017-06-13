@@ -7,18 +7,15 @@ import json
 
 class FileStorage:
     'FileStorage class'
-    print("++FileStorage++")
     __file_path = "./file.json"
     __objects = {}
 
     def all(self):
         'Returns __objects'
-        print("++FileStorage.all++")
         return self.reload()
 
     def new(self, obj):
         'adds an object to the instance'
-        print("++FileStorage.new++")
         from models.base_model import BaseModel
         import uuid
 
@@ -29,7 +26,6 @@ class FileStorage:
 
     def save(self):
         'serializes __objects to JSON file'
-        print("++FileStorage.save++")
         from models.base_model import BaseModel
         new_dict = {}
 
@@ -41,9 +37,7 @@ class FileStorage:
 
     def reload(self):
         'deserializes the JSON file to __objects'
-        print("++FileStorage.reload++")
         from models.base_model import BaseModel
-        print("\t__file_path: {}".format(self.__file_path))
         try:
             with open(FileStorage.__file_path,
                       mode="r",
@@ -51,7 +45,6 @@ class FileStorage:
                 reloaded = json.load(f)
                 for k in reloaded.keys():
                     self.__objects[k] = BaseModel(**reloaded[k])
-                print(self.__objects)
                 return self.__objects
         except:
             return {}
