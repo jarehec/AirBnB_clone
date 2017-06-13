@@ -6,14 +6,16 @@ from models import storage
 'Module for BaseModel'
 
 format = "%Y-%m-%dT%H:%M:%S.%f"
+
+
 class BaseModel:
     'BaseModel class'
     def __init__(self, *args, **kwargs):
         'initialize data'
-        print("++BaseModel.__init__++")
         if len(kwargs) is not 0:
             self.__dict__ = kwargs
-            self.created_at = datetime.strptime(kwargs.get("created_at"), format)
+            self.created_at = datetime.strptime(kwargs.get("created_at"),
+                                                format)
         else:
             self.id = str(uuid.uuid1())
             self.created_at = datetime.now()
@@ -21,19 +23,16 @@ class BaseModel:
 
     def save(self):
         'save method'
-        print("++BaseModel.save++")
         self.updated_at = datetime.now()
         storage.save()
 
     def __str__(self):
         'str method'
-        print("++BaseModel.__str__++")
         return ("[{}] ({}) {}".format(self.__class__.__name__,
                                       self.id, self.__dict__))
 
     def to_json(self):
         'to json method'
-        print("++BaseModel.to_json++")
         new_dict = self.__dict__.copy()
         for key, value in new_dict.items():
             if isinstance(value, (datetime, uuid.UUID, tuple, set)):

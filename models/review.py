@@ -2,7 +2,8 @@
 import uuid
 from datetime import datetime
 from models import storage
-#does BaseModel need to be imported?
+from models.base_model import BaseModel
+
 
 'Module for Review'
 

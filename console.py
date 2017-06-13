@@ -6,10 +6,10 @@ from models import storage
 
 classes = {'BaseModel': BaseModel}
 
+
 class HBNBCommand(cmd.Cmd):
     'hbnb command interpreter'
     prompt = '(hbnb) '
-
 
     def do_quit(self, s):
         'Exits the shell'
@@ -60,7 +60,6 @@ class HBNBCommand(cmd.Cmd):
                     print(v)
                     return
             print('[]')
-                    
 
     def do_update(self, args):
         'updates an instance attribute based on class name and id'
@@ -77,7 +76,7 @@ class HBNBCommand(cmd.Cmd):
         elif len(args) < 4:
             print("** value missing **")
             return
-        
+
         if args[0] not in classes:
             print("** class doesn't exist **")
             return
@@ -92,7 +91,6 @@ class HBNBCommand(cmd.Cmd):
                 storage.save()
                 return
             print("** no instance found **")
-
 
     def do_destroy(self, args):
         'deletes an instance based on class name or id'

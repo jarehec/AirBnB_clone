@@ -10,7 +10,7 @@ class FileStorage:
     print("++FileStorage++")
     __file_path = "./file.json"
     __objects = {}
-        
+
     def all(self):
         'Returns __objects'
         print("++FileStorage.all++")
@@ -45,7 +45,9 @@ class FileStorage:
         from models.base_model import BaseModel
         print("\t__file_path: {}".format(self.__file_path))
         try:
-            with open(FileStorage.__file_path, mode="r", encoding="utf-8") as f:
+            with open(FileStorage.__file_path,
+                      mode="r",
+                      encoding="utf-8") as f:
                 reloaded = json.load(f)
                 for k in reloaded.keys():
                     self.__objects[k] = BaseModel(**reloaded[k])
