@@ -6,6 +6,8 @@ from models import storage
 'Module for BaseModel'
 
 format = "%Y-%m-%dT%H:%M:%S.%f"
+
+
 class BaseModel:
     'BaseModel class'
     def __init__(self, *args, **kwargs):
@@ -13,7 +15,8 @@ class BaseModel:
         print("++BaseModel.__init__++")
         if len(kwargs) is not 0:
             self.__dict__ = kwargs
-            self.created_at = datetime.strptime(kwargs.get("created_at"), format)
+            self.created_at = datetime.strptime(kwargs.get("created_at"),
+                                                format)
         else:
             self.id = str(uuid.uuid1())
             self.created_at = datetime.now()
