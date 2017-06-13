@@ -6,6 +6,7 @@ from console import HBNBCommand
 import unittest
 import sys
 
+
 class TestConsole(unittest.TestCase):
     'test console.py'
     def setUp(self):
