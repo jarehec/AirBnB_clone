@@ -14,7 +14,6 @@ from models.engine.file_storage import FileStorage
 class TestReview(unittest.TestCase):
     'class for testing review'
 
-
     def setUp(self):
         'called multiple times, once before each test'
         self.new_review = Review()
@@ -27,7 +26,6 @@ class TestReview(unittest.TestCase):
             except:
                 pass
 
-    
     def test__init__id(self):
         'tests __init__: id'
         this_dict = self.new_review.__dict__
@@ -46,8 +44,6 @@ class TestReview(unittest.TestCase):
         self.assertEqual(self.new_review.user_id, "")
         self.assertTrue(hasattr(self.new_review, "text"))
         self.assertEqual(self.new_review.text, "")
-
-
 
         self.assertFalse(hasattr(self.new_review, "updated_at"))
         self.assertFalse(hasattr(self.new_review, "my_number"))
@@ -80,12 +76,13 @@ class TestReview(unittest.TestCase):
         print("this_dict (after save): {}".format(this_dict))
         after = this_dict.get("updated_at")
         self.assertNotEqual(before, after)
-        
+
     def test___str__(self):
         'test __str__: check format'
-        correct_format = ("[{}] ({}) {}".format(self.new_review.__class__.__name__,
-                                                self.new_review.id,
-                                                self.new_review.__dict__))
+        correct_format = ("[{}] ({}) {}".format
+                          (self.new_review.__class__.__name__,
+                           self.new_review.id,
+                           self.new_review.__dict__))
         self.assertEqual(print(correct_format), print(self.new_review))
 
     def test_repr(self):

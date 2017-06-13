@@ -14,7 +14,6 @@ from models.engine.file_storage import FileStorage
 class TestState(unittest.TestCase):
     'class for testing state'
 
-
     def setUp(self):
         'called multiple times, once before each test'
         self.new_state = State()
@@ -27,7 +26,6 @@ class TestState(unittest.TestCase):
             except:
                 pass
 
-    
     def test__init__id(self):
         'tests __init__: id'
         this_dict = self.new_state.__dict__
@@ -43,7 +41,6 @@ class TestState(unittest.TestCase):
 
         self.assertTrue(hasattr(self.new_state, "name"))
         self.assertEqual(self.new_state.name, "")
-
 
         self.assertFalse(hasattr(self.new_state, "updated_at"))
         self.assertFalse(hasattr(self.new_state, "my_number"))
@@ -76,12 +73,13 @@ class TestState(unittest.TestCase):
         print("this_dict (after save): {}".format(this_dict))
         after = this_dict.get("updated_at")
         self.assertNotEqual(before, after)
-        
+
     def test___str__(self):
         'test __str__: check format'
-        correct_format = ("[{}] ({}) {}".format(self.new_state.__class__.__name__,
-                                                self.new_state.id,
-                                                self.new_state.__dict__))
+        correct_format = ("[{}] ({}) {}".format
+                          (self.new_state.__class__.__name__,
+                           self.new_state.id,
+                           self.new_state.__dict__))
         self.assertEqual(print(correct_format), print(self.new_state))
 
     def test_repr(self):

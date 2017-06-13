@@ -14,7 +14,6 @@ from models.engine.file_storage import FileStorage
 class TestPlace(unittest.TestCase):
     'class for testing place'
 
-
     def setUp(self):
         'called multiple times, once before each test'
         self.new_place = Place()
@@ -27,7 +26,6 @@ class TestPlace(unittest.TestCase):
             except:
                 pass
 
-    
     def test__init__id(self):
         'tests __init__: id'
         this_dict = self.new_place.__dict__
@@ -61,11 +59,7 @@ class TestPlace(unittest.TestCase):
         self.assertTrue(hasattr(self.new_place, "longitude"))
         self.assertEqual(self.new_place.longitude, 0.0)
         self.assertTrue(hasattr(self.new_place, "amenity_ids"))
-        self.assertEqual(self.new_place.amenity_ids , [])
-
-
-
-
+        self.assertEqual(self.new_place.amenity_ids, [])
 
         self.assertFalse(hasattr(self.new_place, "updated_at"))
         self.assertFalse(hasattr(self.new_place, "my_number"))
@@ -98,12 +92,13 @@ class TestPlace(unittest.TestCase):
         print("this_dict (after save): {}".format(this_dict))
         after = this_dict.get("updated_at")
         self.assertNotEqual(before, after)
-        
+
     def test___str__(self):
         'test __str__: check format'
-        correct_format = ("[{}] ({}) {}".format(self.new_place.__class__.__name__,
-                                                self.new_place.id,
-                                                self.new_place.__dict__))
+        correct_format = ("[{}] ({}) {}".format
+                          (self.new_place.__class__.__name__,
+                           self.new_place.id,
+                           self.new_place.__dict__))
         self.assertEqual(print(correct_format), print(self.new_place))
 
     def test_repr(self):
