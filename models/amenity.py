@@ -2,7 +2,7 @@
 import uuid
 from datetime import datetime
 from models import storage
-from models.base_mode import BaseModel
+from models.base_model import BaseModel
 
 
 'Module for Amenity'
