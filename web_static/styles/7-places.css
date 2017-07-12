@@ -1,8 +1,16 @@
+.places
+{
+	display: inline-flex;
+	align-items: center;
+	flex-wrap: wrap;
+	justify-content: center;
+}
 .places h1
 {
 	text-align: left;
 	font-size: 30px;
 	padding-left: 5%;
+	width: 100%;
 }
 article
 {
